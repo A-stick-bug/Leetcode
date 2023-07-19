@@ -18,9 +18,12 @@ def letterCombinations(digits):
 
     q = deque(letters[digits[0]])
 
-    for c in range(1, len(digits)):  # for every letter
+    for c in range(1, len(digits)):  # for every letter in digits
         for _ in range(len(q)):
             tmp = q.popleft()
             for i in letters[digits[c]]:  # add every possible letter
                 q.append(tmp + i)
     return q
+
+
+print(letterCombinations("234"))
