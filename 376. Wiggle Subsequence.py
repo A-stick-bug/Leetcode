@@ -1,4 +1,6 @@
 # simple greedy approach, O(n)
+# basically just find the number of times that the sequences goes from increase to decreasing and vice versa
+# the actual difference between numbers is ignored
 
 def wiggleMaxLength(nums) -> int:
     res = 1
