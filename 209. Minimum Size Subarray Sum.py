@@ -8,12 +8,12 @@ def minSubArrayLen(target: int, nums: List[int]) -> int:
     left = cur = 0
     res = len(nums)  # minimum window length so far
     for right in range(len(nums)):
-        cur += nums[right]  # entend window forwards
+        cur += nums[right]  # extend window forwards
         while cur - nums[left] >= target:  # try to shrink window
             cur -= nums[left]
-            left += 1
+            left += 1  # update current sum shrink
 
-        if cur >= target:
+        if cur >= target:  # current window's sum is greater than the target
             res = min(res, right - left + 1)
 
     return res
