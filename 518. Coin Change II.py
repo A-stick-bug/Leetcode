@@ -27,4 +27,4 @@ def bottom_up_method(amount: int, coins: List[int]) -> int:
     return dp[amount]
 
 
-print(change(amount=5, coins=[1, 2, 5]))
+print(bottom_up_method(amount=5, coins=[1, 2, 5]))
