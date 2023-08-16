@@ -1,6 +1,6 @@
 # create a 2D prefix sum (we have to remove the overlap) in the constructor, so it can be reused
 # when accessing the prefix sum, we have to add back the overlap
-# as it is removed twice in " - self.psa[row1][col2 + 1] - self.psa[row2 + 1][col1]"
+# as it is  removed twice in " - self.psa[row1][col2 + 1] - self.psa[row2 + 1][col1]"
 
 from typing import List
 
