@@ -1,33 +1,31 @@
-# can use collections.Counter() and check if a letter in the word appears more times than it appears on the board
-
 def exists(board, word):
     rows, cols = len(board), len(board[0])
-    used = [[False for _ in range(cols)] for _ in range(rows)]
     directions = [(0, 1), (1, 0), (-1, 0), (0, -1)]
 
     # each cell can only be used once when searching, keep track using a set()
-    def search(row, col, index, used):
+    def search(row, col, index):
         # found word
         if index == len(word):
             return True
 
         # out of bounds or already visited
-        if row < 0 or col < 0 or row >= len(board) or col >= len(board[0]) or used[row][col] or board[row][col] != word[index]:
+        if row < 0 or col < 0 or row >= len(board) or col >= len(board[0]) or board[row][col] != word[index]:
             return False
 
-        # if the cell is not usable, backtrack
-        used[row][col] = True
+        temp = board[row][col]
+        board[row][col] = "#"  # mark as visited
         for r, c in directions:
-            if search(row + r, col + c, index + 1, used):
+            if search(row + r, col + c, index + 1):
                 return True
 
-        used[row][col] = False
+        board[row][col] = temp  # if the cell is not usable, backtrack
         return False
 
     for i in range(rows):
         for j in range(cols):
-            if search(i, j, 0, used):
+            if search(i, j, 0):
                 return True
+
     return False
 
 
