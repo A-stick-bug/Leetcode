@@ -1,6 +1,7 @@
 """
 for each row, we use the largest rectangle in histogram method to find the maximum area in O(M)
 time complexity is O(MN) because there are N rows
+space complexity is O(M) because the histogram only takes up 1 row
 
 to convert the matrix to a histogram, we increment by 1 if the value is 1 and set to 0 if it is 0
 because a 0 will prevent a rectangle being formed from the bottom
