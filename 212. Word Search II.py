@@ -1,3 +1,19 @@
+"""
+Backtracking solution using a trie
+
+1. Create a trie containing every word
+2. Do a DFS on every cell:
+    i. mark the current node as visited
+    ii. for every adjacent nodes, if it is a children of the current node in the trie, use dfs
+3. Restore the state of the board by removing the current node from visited
+
+Further optimizations possible:
+- Keep track of the parent node instead of the current node in the dfs function.
+  This way, we can make the trie smaller (and reduce search time) by removing nodes
+  after we find a word.
+
+"""
+
 from typing import List
 from collections import defaultdict
 
