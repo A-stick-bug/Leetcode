@@ -4,6 +4,9 @@ There are N-queens we need to place on a NxN board, therefore, we need 1 queen o
 - diagonal \, all (row, col) have the same (\) diagonal if its (row - col) is the same
 - diagonal /, all (row, col) have the same (/) diagonal if its (row + col) is the same
 
+For each row, we try to put a queen on each column, if the column doesn't work, we go to next column
+If row doesn't work, we backtrack
+
 """
 
 
@@ -18,7 +21,7 @@ def totalNQueens(n: int) -> int:
             return
 
         for col in range(n):
-            if col in cols or (row - col) in d1 or (row+col) in d2:  # invalid state, no need to search further
+            if col in cols or (row - col) in d1 or (row + col) in d2:  # invalid state, no need to search further
                 continue
             cols.add(col)
             d1.add(row - col)
