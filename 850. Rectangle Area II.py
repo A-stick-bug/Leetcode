@@ -33,6 +33,7 @@ def rectangleArea(rectangles: List[List[int]]) -> int:
     cx = {val: i + 1 for i, val in enumerate(all_x)}  # compress coordinates
     cy = {val: i + 1 for i, val in enumerate(all_y)}
 
+    # use a difference array for O(1) updates per rectangle
     diff = [[0] * (len(cx) + 2) for _ in range(len(cy) + 2)]
     for x1, y1, x2, y2 in rectangles:
         x1, y1, x2, y2 = cx[x1], cy[y1], cx[x2], cy[y2]  # compress coordinates
@@ -41,11 +42,14 @@ def rectangleArea(rectangles: List[List[int]]) -> int:
         diff[y1][x2] -= 1
         diff[y2][x2] += 1
 
+    # we need to uncompress cells that are covered by a rectangle to get total area
     area = 0
     for i in range(1, len(cy) + 1):
         for j in range(1, len(cx) + 1):
+            # principle of exclusion inclusion again
             diff[i][j] += diff[i - 1][j] + diff[i][j - 1] - diff[i - 1][j - 1]
             if diff[i][j] > 0:
+                # to get actual area, we need to uncompress the coordinates (l * w)
                 area = (area + (all_x[j] - all_x[j - 1]) * (all_y[i] - all_y[i - 1])) % MOD
 
     return area
