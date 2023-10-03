@@ -2,7 +2,7 @@
 https://leetcode.com/problems/find-median-from-data-stream/description/
 (Not optimal) Solution using an Order Statistic Tree (implemented using Fenwick Tree)
 
-Query: (log(n)^2), log(n) for get rank and log(n) for binary search
+Query: (log(n))
 Update: O(log(n))
 
 """
@@ -26,15 +26,13 @@ class FenwickTree:
         return res
 
     def select(self, k):  # binary search to get k-th element
-        l = 1
-        r = self.size
-        while l < r:
-            m = (l + r) // 2
-            if k <= self.query(m):
-                r = m
-            else:
-                l = m + 1
-        return l
+        i = 0
+        bit_length = self.size.bit_length()
+        for _ in range(bit_length, -1, -1):
+            if i + (1 << _) <= self.size and self.tree[i + (1 << _)] < k:
+                i += 1 << _
+                k -= self.tree[i]
+        return i + 1
 
 
 class MedianFinder:
