@@ -25,12 +25,13 @@ class FenwickTree:
             i -= i & (-i)
         return res
 
-    def select(self, k):  # binary search to get k-th element
+    def select(self, k):  # "traversal" in log(n)
         i = 0
-        bit_length = self.size.bit_length()
-        for _ in range(bit_length, -1, -1):
-            if i + (1 << _) <= self.size and self.tree[i + (1 << _)] < k:
-                i += 1 << _
+        log2 = self.size.bit_length()  # log2(self.size), number of bits needed to represent self.size
+        for power in reversed(range(log2)):
+            # 1<<x = 2 to the power of x
+            if i + (1 << power) <= self.size and self.tree[i + (1 << power)] < k:
+                i += 1 << power
                 k -= self.tree[i]
         return i + 1
 
@@ -42,13 +43,13 @@ class MedianFinder:
         self.nums = 0
 
     def addNum(self, num: int) -> None:
-        self.bit.update(num + self.MAX, 1)  # add value as positive
+        self.bit.update(num + self.MAX, 1)  # first make value positive, then add to BIT
         self.nums += 1
 
     def findMedian(self) -> float:
         if self.nums % 2 == 1:  # odd number has 1 median
             i = self.nums // 2 + 1
-            return self.bit.select(i) - self.MAX
+            return self.bit.select(i) - self.MAX  # get the i-th largest element using select
 
         else:  # even number has 2 medians, take the average
             i = self.nums // 2
