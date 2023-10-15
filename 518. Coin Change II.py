@@ -1,3 +1,5 @@
+# variation of the knapsack problem
+
 from typing import List
 from functools import cache
 
@@ -21,7 +23,7 @@ def bottom_up_method(amount: int, coins: List[int]) -> int:
     dp[0] = 1
 
     for i in range(len(coins)):
-        for j in range(coins[i], amount + 1):
+        for j in range(coins[i], amount + 1):  # using the first i coins, we can get to j in dp[j] ways
             dp[j] += dp[j - coins[i]]
 
     return dp[amount]
