@@ -1,13 +1,17 @@
-# Using Fenwick Tree for range update and point query
-# O(n*log(n))
-#
-# Index 0 is always reachable (base case)
-# Loop through every index (except last) and if the current index is reachable:
-#    We can reach the next nums[i] indices from i, so we set those to true (this can be optimized with Fenwick Tree)
-
-from typing import List
+# 3 solutions O(n), O(n*log(n)), O(n^2)
 
 
+# optimal solution using greedy, going backwards, O(n)
+def greedy(nums: list[int]):
+    n = len(nums)
+    last = n - 1  # right-most index that can be reached
+    for i in reversed(range(n - 1)):
+        if i + nums[i] >= last:  # can reach earlier index
+            last = i
+    return last == 0  # can get from end to start
+
+
+# Solution 2 using Fenwick Tree O(n*log(n))
 class FenwickTree:  # 1-indexed, supports range update and point query
     def __init__(self, n):
         self.bit = [0] * (n + 1)
@@ -31,7 +35,10 @@ class FenwickTree:  # 1-indexed, supports range update and point query
         return ret
 
 
-def canJump(nums: List[int]) -> bool:
+# Index 0 is always reachable (base case)
+# Loop through every index (except last) and if the current index is reachable:
+#    We can reach the next nums[i] indices from i, so we set those to true (this is optimized with Fenwick Tree)
+def canJump(nums: list[int]) -> bool:
     n = len(nums)
     reachable = FenwickTree(n)
     reachable.range_add(0, 0, 1)  # base case: index 0 is always reachable
@@ -45,7 +52,8 @@ def canJump(nums: List[int]) -> bool:
     return reachable.query(n - 1) > 0  # return whether we can reach the last index
 
 
-def brute_force(nums: List[int]) -> bool:
+# TLE, Solution 3 using brute force O(n^2)
+def brute_force(nums: list[int]) -> bool:
     n = len(nums)
     reachable = [False] * n
     reachable[0] = True
