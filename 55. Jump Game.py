@@ -38,6 +38,8 @@ def canJump(nums: List[int]) -> bool:
 
     for i in range(n - 1):
         if reachable.query(i):  # if the current index is reachable
+            if i + nums[i] + 1 >= n:  # optimization: return early if we can reach end
+                return True
             reachable.range_add(i + 1, min(i + nums[i], n - 1), 1)  # we can also reach the next nums[i] indices
 
     return reachable.query(n - 1) > 0  # return whether we can reach the last index
