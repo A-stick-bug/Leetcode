@@ -9,8 +9,8 @@ def bottom_up(strs: list[str], m: int, n: int):
     count = [(s.count("0"), s.count("1")) for s in strs]
     dp = [[0] * 101 for _ in range(101)]
     for zero, one in count:
-        for i in reversed(range(zero, m+1)):
-            for j in reversed(range(one, n+1)):
+        for i in reversed(range(zero, m + 1)):  # iterate in reverse to prevent duplicating values
+            for j in reversed(range(one, n + 1)):
                 dp[i][j] = max(1 + dp[i - zero][j - one], dp[i][j])
     return dp[m][n]
 
