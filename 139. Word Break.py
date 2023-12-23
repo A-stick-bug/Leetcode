@@ -1,17 +1,21 @@
-# review this later
+# dfs with memoization to prevent repeating states
 
-def wordBreak(s,wordDict):
-    bools = [False] * (len(s) + 1)
-    bools[0] = True
-
-    for i in range(1, len(s) + 1):
-        for j in range(i):
-            if bools[j] and s[j:i] in wordDict:
-                bools[i] = True
-                break
-
-    return bools[-1]
+from functools import cache
 
 
-print(wordBreak('cog',["og","c"]))
+def wordBreak(s: str, wordDict: list[str]) -> bool:
+    @cache
+    def solve(cur: str):
+        if cur == s:  # matched the string
+            return True
 
+        for word in wordDict:
+            new_word = cur + word
+            if s.startswith(new_word) and solve(new_word):  # if we are on the right path, go deeper
+                return True
+        return False
+
+    return solve("")
+
+
+print(wordBreak(s="cog", wordDict=["co", "g"]))
