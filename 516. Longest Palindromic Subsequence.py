@@ -1,5 +1,5 @@
 # https://leetcode.com/problems/longest-palindromic-subsequence/
-# Interval DP: dp[i][j] has the longest palindrome inside s[i:j+1]
+# Interval DP: dp[i][j] has the longest palindrome inside s[i:j]
 # idea: First calculate base cases (length 1 and 2) then expand from them
 
 
