@@ -11,11 +11,14 @@ def numTrees(n: int) -> int:
             return 1
 
         total = 0
-        for i in range(l, r+1):  # try all split points as the root
+        for i in range(l, r + 1):  # try all split points as the root
             total += solve(l, i - 1) * solve(i + 1, r)  # multiply left and right
         return total
 
     return solve(1, n)
 
 
-print(numTrees(1))
+res = []
+for i in range(1, 21):
+    res.append(numTrees(i))
+print(res)
