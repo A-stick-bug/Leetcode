@@ -1,7 +1,27 @@
 # https://leetcode.com/problems/edit-distance/description/
+# faster iterative version
+
+def minDistance_iterative(s: str, t: str) -> int:
+    n, m = len(s), len(t)
+
+    # dp[i][j] minimum cost to match up to s[i] and t[j]
+    # extra padding to prevent index out of bounds
+    dp = [[1 << 30] * (m + 1) for _ in range(n + 1)]
+    dp[-1][-1] = 0
+    for i in reversed(range(n)):  # iterate in reverse since we are accessing dp[i+1][j+1]
+        for j in reversed(range(m)):
+            if s[i] == t[j]:  # same character, no cost
+                dp[i][j] = dp[i + 1][j + 1]
+            else:
+                dp[i][j] = 1 + min(dp[i + 1][j + 1],
+                                   dp[i + 1][j],
+                                   dp[i][j + 1])
+
+    return dp[0][0]
+
+
 # top down recursive DP
 # each state branches into 3 possibilities, the cache prevents visiting a state more than once
-
 from functools import cache
 
 
@@ -27,6 +47,3 @@ def minDistance(word1: str, word2: str) -> int:
         return 1 + min(solve(i + 1, j), solve(i, j + 1), solve(i + 1, j + 1))
 
     return solve(0, 0)
-
-
-print(minDistance(word1="horse", word2="ros"))
