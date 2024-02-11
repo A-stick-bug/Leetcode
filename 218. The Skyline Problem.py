@@ -6,6 +6,7 @@ A: Line sweep with a sorted structure to get maximum
 - At each position x, handle every event with that x value
 - Then, get the current maximum height and see if it is different from the previous
 
+TC: O(nlogn)
 """
 from sortedcontainers import SortedList
 
