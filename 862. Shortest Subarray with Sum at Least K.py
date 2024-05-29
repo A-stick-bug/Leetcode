@@ -28,4 +28,53 @@ def shortestSubarray(nums: list[int], k: int) -> int:
     return res if res != float('inf') else -1
 
 
-print(shortestSubarray(nums = [1], k = 1))
+print(shortestSubarray(nums=[1], k=1))
+
+# alternate (slower) solution using Fenwick Tree
+from itertools import accumulate
+
+
+class MaxFenwickTree:  # uses 1-indexing
+    def __init__(self, size):
+        """Create empty Fenwick Tree"""
+        self.bit = [-1000000] * (size + 1)
+
+    def update(self, i: int, val: int) -> None:
+        """Set self.bit[i] to val"""
+        while i < len(self.bit):
+            self.bit[i] = max(self.bit[i], val)
+            i += i & (-i)
+
+    def query(self, i: int):
+        """Get the max up to the i-th element (inclusive)"""
+        total = -1000000
+        while i > 0:
+            total = max(total, self.bit[i])
+            i -= i & (-i)
+        return total
+
+
+def shortestSubarray(nums: list[int], k: int) -> int:
+    # coordinate compression
+    vals = [0]
+    for i in accumulate(nums):
+        vals.append(i)
+        vals.append(i - k)
+    vals = sorted(set(vals))
+    comp = {vals[i]: i + 1 for i in range(len(vals))}
+
+    bit = MaxFenwickTree(len(vals))  # bit[i]: max index with sum of i
+    bit.update(comp[0], -1)  # option to remove nothing
+    cur = 0  # current prefix sum
+    res = 1000000
+
+    for i in range(len(nums)):
+        cur += nums[i]
+        prev = bit.query(comp[cur - k])  # query max index where the sum is more than K
+        res = min(res, i - prev)
+        bit.update(comp[cur], i)
+
+    return res if res == 1000000 else -1
+
+
+print(shortestSubarray([2, -1, 2], 3))
