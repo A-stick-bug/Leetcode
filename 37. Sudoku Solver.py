@@ -63,20 +63,19 @@ def solveSudoku(board: List[List[str]]) -> None:
 
     fill(0, 0)
 
+board = """5...2...8
+.........
+81.3.9.25
+...9.5...
+....6....
+7.5...4.3
+..4...7..
+18.4.2.59
+....9...."""
 
-# "Hardest ever Sudoku" according to:
-# https://abcnews.go.com/blogs/headlines/2012/06/can-you-solve-the-hardest-ever-sudoku
-# To be fair though, it did take a bit longer than usual
-board = [["8", ".", ".", ".", ".", ".", ".", ".", "."],
-         [".", ".", "3", "6", ".", ".", ".", ".", "."],
-         [".", "7", ".", ".", "9", ".", "2", ".", "."],
-         [".", "5", ".", ".", ".", "7", ".", ".", "."],
-         [".", ".", ".", ".", "4", "5", "7", ".", "."],
-         [".", ".", ".", "1", ".", ".", ".", "3", "."],
-         [".", ".", "1", ".", ".", ".", ".", "6", "8"],
-         [".", ".", "8", "5", ".", ".", ".", "1", "."],
-         [".", "9", ".", ".", ".", ".", "4", ".", "."]]
-
+board = board.split()
+board = list(map(list, board))
+print(board)
 solveSudoku(board)
 for i in board:
     print(i)
