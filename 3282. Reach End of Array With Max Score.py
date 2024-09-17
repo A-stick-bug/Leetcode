@@ -8,9 +8,9 @@ from collections import deque
 def findMaximumScore(nums):
     n = len(nums)
     dp = [float('-inf')] * n
-    dp[0] = 0  # Starting at index 0 with score 0
+    dp[0] = 0
 
-    # Deque to maintain the lines in a convex hull
+    # maintain the lines in a convex hull
     deq = deque([0])
 
     for j in range(1, n):
