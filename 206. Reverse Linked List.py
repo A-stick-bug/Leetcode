@@ -18,4 +18,4 @@ class Solution:
             first = second
             second = third
 
-        return head
+        return first
