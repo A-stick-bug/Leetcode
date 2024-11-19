@@ -74,7 +74,7 @@ def shortestSubarray(nums: list[int], k: int) -> int:
         res = min(res, i - prev)
         bit.update(comp[cur], i)
 
-    return res if res == 1000000 else -1
+    return res if res != 1000000 else -1
 
 
 print(shortestSubarray([2, -1, 2], 3))
