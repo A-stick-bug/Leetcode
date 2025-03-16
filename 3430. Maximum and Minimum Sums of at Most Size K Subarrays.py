@@ -32,18 +32,19 @@ def minMaxSubarraySum(nums: list[int], k: int) -> int:
     # print(nxt_larger)
 
     def count_subarrays(l, r, i):
-        def range_sum(l, r):  # inclusive sum of integers [l,r]
-            # assert l <= r
-            if l > r:
-                return 0
-            return r * (r + 1) // 2 - (l - 1) * (l) // 2
-
         """
         Count the number of subarrays satisfying:
         - inside [l,r]
         - containing index i
         - having length of at most k
         """
+
+        def range_sum(l, r):  # inclusive sum of integers [l,r]
+            # assert l <= r
+            if l > r:
+                return 0
+            return r * (r + 1) // 2 - (l - 1) * (l) // 2
+
         l = max(l, i - k + 1)
         r = min(r, i + k - 1)
 
