@@ -1,45 +1,58 @@
-# know when to use for/while loops, for this question, while loop is much better
-# try to make code not break on edge cases
-# use while loop to keep 2 pointers in range
+# https://leetcode.com/problems/longest-palindromic-substring
+# Classic string problem
 
+# expanding 2-pointers: O(n^2), much faster on average
 def longestPalindrome(s: str) -> str:
-    longest = 1
-    out = s[0]
-    for i in range(len(s)):  # for every index (and pair of indices)
+    n = len(s)
+    l_ans = r_ans = 0
 
-        start = end = i  # center is one element
-        while start >= 0 and end < len(s) and s[start] == s[end]:
-            if end - start + 1 > longest:
-                out = s[start:end + 1]
-                longest = end - start + 1
-            start -= 1
-            end += 1
+    for cent in range(n - 1):
+        # odd case
+        l = cent
+        r = cent
+        while 0 <= l and r < n and s[l] == s[r]:
+            if r_ans - l_ans < r - l:
+                l_ans = l
+                r_ans = r
+            l -= 1
+            r += 1
 
-        start, end = i, i + 1  # center is 2 elements
-        while start >= 0 and end < len(s) and s[start] == s[end]:
-            if end - start + 1 > longest:
-                out = s[start:end + 1]
-                longest = end - start + 1
-            start -= 1
-            end += 1
-    return out
+        # even case
+        l = cent
+        r = cent + 1
+        while 0 <= l and r < n and s[l] == s[r]:
+            if r_ans - l_ans < r - l:
+                l_ans = l
+                r_ans = r
+            l -= 1
+            r += 1
+
+    return s[l_ans: r_ans + 1]
 
 
-def dp_solution(s):
+print(longestPalindrome("abcbad"))
+
+
+# DP solution: O(n^2)
+def longestPalindrome(s: str) -> str:
     n = len(s)
     dp = [[False] * n for _ in range(n)]
-    res = s[0]  # placeholder in case there is no longer palindrome
 
-    for i in range(n):  # any single letter is a palindrome
+    # base cases: length 1 and 2
+    for i in range(n):
         dp[i][i] = True
+    for i in range(n - 1):
+        dp[i][i + 1] = (s[i] == s[i + 1])
 
-    for j in range(n):
-        for i in range(j):
-            if s[i] == s[j] and (dp[i + 1][j - 1] or j == i + 1):
-                dp[i][j] = True
-                if j - i + 1 > len(res):  # longer than current longest
-                    res = s[i:j + 1]
-    return res
+    # start with smaller segments
+    for le in range(3, n + 1):
+        for l in range(n - le + 1):
+            r = l + le - 1
+            dp[l][r] = (s[l] == s[r]) and dp[l + 1][r - 1]
 
-s = "a"
-print(longestPalindrome(s))
+    # find largest valid one
+    for le in reversed(range(1, n + 1)):
+        for l in range(n - le + 1):
+            r = l + le - 1
+            if dp[l][r]:
+                return s[l:r + 1]
