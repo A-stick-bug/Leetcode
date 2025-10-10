@@ -7,6 +7,8 @@
 #
 # We care about the previous 2 elements to determine what the next one can be
 # Note: we can easily replace the dict by compressing the 6 possible states
+#
+# TC: O(n), with a large constant factor
 
 from collections import defaultdict
 
